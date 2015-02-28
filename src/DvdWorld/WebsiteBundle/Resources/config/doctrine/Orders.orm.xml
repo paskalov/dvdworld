@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="DvdWorld\WebsiteBundle\Entity\Orders" table="Orders">
+    <indexes>
+      <index name="fk_Zamowienia_StatusZamowienia1_idx" columns="id_status"/>
+      <index name="fk_Zamowienia_Filmy1_idx" columns="movie_id"/>
+      <index name="fk_Zamowienia_Uzytkownicy1_idx" columns="user_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="dateOfOrder" type="datetime" column="date_of_order" nullable="true"/>
+    <field name="dateOfReturn" type="datetime" column="date_of_return" nullable="true"/>
+    <many-to-one field="user" target-entity="DvdWorld\UserBundle\Entity\User">
+      <join-columns>
+        <join-column name="user_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="movie" target-entity="Movies">
+      <join-columns>
+        <join-column name="movie_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idStatus" target-entity="Orderstatus">
+      <join-columns>
+        <join-column name="id_status" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

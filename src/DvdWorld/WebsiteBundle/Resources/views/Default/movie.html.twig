@@ -1,0 +1,137 @@
+{% extends 'DvdWorldWebsiteBundle::base.html.twig' %}
+
+
+{% block title %}{{ movie.getTitle }}{% endblock %}
+{% block carousel %}{% endblock %}
+{% block genreList %}{% endblock %}
+
+{% block movieBlock %}
+    <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <style>
+        #cartButton {
+            background: url({{ asset('bundles/dvdworld/images/btn_koszyk.png') }});
+            border: 0;
+            margin-left: 110%;
+            display: block;
+            height: 22px;
+            width: 120px;
+        }
+        .ui-widget-header,.ui-state-default {
+            background: #000000;
+            border: 1px solid black;
+            color:  #e6651d;
+            font-weight: bold;
+        }
+        .ui-widget-content {
+            background: #C0C0C0;
+        }
+        .ui-dialog-titlebar-close {
+            visibility: hidden;
+        }
+        textarea, h4 {
+            margin-left: 35%;
+        }
+        #add-review-button  {
+            margin-left: 67%;
+        }
+        textarea#styled {
+            width: 600px;
+            height: 120px;
+            border: 3px solid #cccccc;
+            padding: 5px;
+            font-family: Tahoma, sans-serif;
+            background-position: bottom right;
+            background-repeat: no-repeat;
+        }
+        .hiddenFrame {
+            margin: 0;
+            margin-left: 25%;
+            padding: 0;
+            border: none;
+            width: 90%;
+            height: 50px;
+        }
+    </style>
+    <script>
+        $(function() {
+            $( "#dialog" ).dialog({
+                autoOpen: false,
+                buttons: {
+                    OK: function(event, ui) { window.location.href = "{{ path('index') }}"; }
+                },
+                title: "Koszyk"
+            });
+            $( "#cartButton" ).click(function() {
+                $( "#dialog" ).dialog( "open" );
+            });
+            $('#add-review-button').click(function() {
+                $('#review').hide();
+            });
+        });
+        function setbg(color) {
+            document.getElementById("styled").style.background=color;
+        }
+
+    </script>
+    <table class="tg" width="1000">
+        <tr>
+            <td><img src="{{ asset(movie.getImgUrl) }}">
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </td>
+            <td align="left">
+               <font size="15">
+                   <p align="center">{{ movie.getTitle }}</p>
+               </font>
+                <b>Сena: </b> {{ movie.getPrice }} zł <br />
+                <b>Aktorzy: </b>
+                {% for actor in movie.getFullname %}
+                    {{ actor.getFullname}}
+                    {% if not loop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+                <br />
+                <b>Długość filmu: </b>{{ movie.getLength }} min <br />
+                <b>Rok: </b>{{ movieReleaseYear }} <br />
+                <b>Gatunek: </b>
+                {% for genre in movie.getGenre %}
+                    <a href="{{ path('moviesByGenre', {'genre' : genre.getGenre }) }}">{{ genre.getGenre|lower}}</a>
+                    {% if not loop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+                </br>
+                </br>
+                <b>Opis: </b><br />
+                {{ movie.getDescription }}
+                <br />
+                <br />
+            </td>
+        </tr>
+    </table>
+
+    {% if doesUserHavePermissionToWatch %}
+        <script src="{{ asset('bundles/dvdworld/html5lightbox/html5lightbox.js') }}"></script>
+        <a href="{{ movie.getVidUrl }}" style="margin-left: 100%"
+            class="html5lightbox" data-width="1024" data-height="768" title="{{ movie.getTitle }}">
+            <img src="{{ asset('bundles/dvdworld/images/play.png') }}" height="50" width="50">Oglądaj online!
+        </a>
+    {% else %}
+        <button  id="cartButton" align="right" onclick="createCookie({{ movie.getId }}, 7)"></button>
+    {% endif %}
+    <div id="dialog">Film został dodany do koszyka</div>
+
+    {# If user is logged in#}
+    {% if app.user %}
+    <div id="review">
+        <form action="{{ path('addReview') }}" method="post" target="hiddenFrame">
+            <h4>Zostaw recenzję:</h4>
+            <textarea name="review" id="styled"  onfocus="setbg('#e5fff3');" onblur="setbg('white')"></textarea>
+            <input type="hidden" name="movieId" value="{{ movie.getId }}">
+            <input id="add-review-button" class="internalButton" type="submit" value="Dodaj">
+        </form>
+     </div>
+        <iframe name="hiddenFrame" class="hiddenFrame"></iframe>
+    {% endif %}
+{% endblock %}
+

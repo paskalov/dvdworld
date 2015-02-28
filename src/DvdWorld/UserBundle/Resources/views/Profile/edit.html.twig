@@ -1,0 +1,40 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    <style>
+        form {
+            margin: 2.5%;
+        }
+        form div {
+            display: block;
+            margin: 0px;
+        }
+        form div>label {
+            float: left;
+            width: 20%;
+        }
+        form div input {
+            border: 1px solid #DADADA;
+            height: 30px;
+            margin-bottom: 16px;
+            margin-right: 6px;
+            margin-top: 2px;
+            outline: 0 none;
+            padding: 3px 3px 3px 5px;
+            width: 30%;
+            font-size: 12px;
+            line-height:15px;
+            box-shadow: inset 0px 1px 4px #ECECEC;
+            -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+            -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+        }
+        form div>input:focus {
+            box-shadow: 0 0 5px #e6c100;
+        }
+        form div>input[type="submit"] {
+            margin-left: 222px;
+            width: 15%;
+        }
+    </style>
+{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+{% endblock fos_user_content %}

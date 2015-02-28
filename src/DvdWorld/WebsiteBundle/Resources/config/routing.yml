@@ -1,0 +1,4 @@
+app:
+    resource: @DvdWorldWebsiteBundle/Controller/
+    type:     annotation
+

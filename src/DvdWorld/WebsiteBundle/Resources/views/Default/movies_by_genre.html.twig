@@ -1,0 +1,36 @@
+{% extends 'DvdWorldWebsiteBundle::base.html.twig' %}
+
+
+
+{% block title%}
+    {{ chosenGenre }}
+{% endblock %}
+{% block carousel %}
+    <h3 align="center">Wybrany gatunek: {{ chosenGenre|lower }}</h3>
+    <br />
+    <br />
+{% endblock %}
+
+{% block movieBlock %}
+    <div class="row">
+        {% for movie in movies %}
+            {% if loop.index % 3  == 0%}
+                <div class="row">
+            {% endif %}
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <div class="thumbnail">
+                    <a href="{{ path('singleMovie',{ 'id' : movie.getId }) }}"><img src="{{ asset(movie.getImgUrl) }}" alt=""></a>
+                    <div class="caption">
+                        <h4 class="pull-right">{{ movie.getPrice }} zł </h4>
+                        <h4><a href="{{ path('singleMovie',{ 'id' : movie.getId }) }}">{{ movie.getTitle }}</a>
+                        </h4>
+                        <p>{{ movie.getDescription|slice(0, 100) }}...</p>
+                    </div>
+                </div>
+            </div>
+            {% if loop.index % 3  == 0%}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

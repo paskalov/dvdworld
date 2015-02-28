@@ -1,0 +1,84 @@
+<?php
+
+namespace DvdWorld\WebsiteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Transactions
+ *
+ * @ORM\Table(name="transactions", indexes={@ORM\Index(name="fk_transactions_movies1_idx", columns={"movies_id"})})
+ * @ORM\Entity
+ */
+class Transactions
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="surname", type="string", length=50, nullable=false)
+     */
+    private $surname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tran_user_email", type="string", length=45, nullable=true)
+     */
+    private $tranUserEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tran_user_phone_number", type="string", length=45, nullable=true)
+     */
+    private $tranUserPhoneNumber;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="current_price", type="decimal", precision=15, scale=2, nullable=true)
+     */
+    private $currentPrice;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="tran_date", type="datetime", nullable=true)
+     */
+    private $tranDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="string", length=250, nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="transaction_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $transactionId;
+
+    /**
+     * @var \DvdWorld\WebsiteBundle\Entity\Movies
+     *
+     * @ORM\ManyToOne(targetEntity="DvdWorld\WebsiteBundle\Entity\Movies")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="movies_id", referencedColumnName="id")
+     * })
+     */
+    private $movies;
+
+
+}

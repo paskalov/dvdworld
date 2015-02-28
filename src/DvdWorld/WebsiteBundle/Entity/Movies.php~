@@ -1,0 +1,105 @@
+<?php
+
+namespace DvdWorld\WebsiteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Movies
+ *
+ * @ORM\Table(name="Movies", uniqueConstraints={@ORM\UniqueConstraint(name="id", columns={"id"})})
+ * @ORM\Entity
+ */
+class Movies
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=100, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="release_year", type="date", nullable=true)
+     */
+    private $releaseYear;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="length", type="integer", nullable=false)
+     */
+    private $length;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="price", type="decimal", precision=15, scale=2, nullable=true)
+     */
+    private $price;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="img_url", type="text", length=65535, nullable=true)
+     */
+    private $imgUrl;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="DvdWorld\WebsiteBundle\Entity\Genres", inversedBy="movie")
+     * @ORM\JoinTable(name="moviegenre",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="movie_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="genre", referencedColumnName="genre")
+     *   }
+     * )
+     */
+    private $genre;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="DvdWorld\WebsiteBundle\Entity\Actors", inversedBy="movie")
+     * @ORM\JoinTable(name="movieactor",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="movie_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="fullname", referencedColumnName="fullname")
+     *   }
+     * )
+     */
+    private $fullname;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->genre = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fullname = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

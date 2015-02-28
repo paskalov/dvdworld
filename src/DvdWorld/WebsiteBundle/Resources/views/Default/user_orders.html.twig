@@ -1,0 +1,246 @@
+{% extends 'DvdWorldWebsiteBundle::base.html.twig' %}
+
+{% block carousel  %}{% endblock %}
+{% block genreList %}{% endblock %}
+{% block movieBlock %}
+    <style xmlns="http://www.w3.org/1999/html">
+        .order-table {
+            display: table;
+            margin-left: 32%;
+        }
+        .order-row {
+            display: table-row;
+        }
+        .order-cell {
+            display: table-cell;
+            border-width: thin;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .order-movie-img {
+            width: 150px;
+            height: 222px;
+        }
+
+        .image-block {
+            position:relative;
+            display:block;
+            overflow:hidden;
+            float:left;
+        }
+
+        .description {
+            background-color:#e6651d;
+            position:absolute;
+            top:-222px;
+            width: 150px;
+            left:0;
+            color:black;
+            padding:10%;
+            height:100%;
+            transition: all 0.5s ease-in-out;
+        }
+        .description .date u{
+            margin-left: 25px;
+        }
+
+        .description span {
+            display:block;
+        }
+        .image-block:hover .description, .image-block:focus .description{
+            top:0;
+        }
+        a {
+            color: black;
+        }
+        #container_button {
+            background-color: #252525;
+            width: 60px;
+            height: 60px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0px;
+            margin-top: 50px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: inset 0px 2px 0px #585858, 1px 1px 0px #000, 2px 2px 5px #000;
+            -moz-box-shadow: inset 0px 2px 0px #585858, 1px 1px 0px #000, 2px 2px 5px #000;
+            box-shadow: inset 0px 2px 0px #585858, 1px 1px 0px #000, 2px 2px 5px #000;
+        }
+        #hole {
+            background-color: #151515;
+            width: 46.5px;
+            height: 46.5px;
+            margin-left: auto;
+            margin-right: auto;
+            top: 7.5px;
+            position: relative;
+            -webkit-border-radius: 23.25px;
+            -moz-border-radius: 23.25px;
+            border-radius: 23.25px;
+            -webkit-box-shadow: 1px 1px 0px #5d5d5d;
+            -moz-box-shadow: 1px 1px 0px #5d5d5d;
+            box-shadow: 1px 1px 0px #5d5d5d;
+        }
+        #button {
+            width: 45px;
+            height: 45px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: auto;
+            cursor: pointer;
+            top: -5px;
+            position: relative;
+            background-image: linear-gradient(bottom, rgb(82,79,82) 0%, rgb(134,134,134) 57%);
+            background-image: -o-linear-gradient(bottom, rgb(82,79,82) 0%, rgb(134,134,134) 57%);
+            background-image: -moz-linear-gradient(bottom, rgb(82,79,82) 0%, rgb(134,134,134) 57%);
+            background-image: -webkit-linear-gradient(bottom, rgb(82,79,82) 0%, rgb(134,134,134) 57%);
+            background-image: -ms-linear-gradient(bottom, rgb(82,79,82) 0%, rgb(134,134,134) 57%);
+            -webkit-border-radius: 150px;
+            -moz-border-radius: 150px;
+            border-radius: 150px;
+            -webkit-box-shadow: inset 0px 2px 0px #a8a8a8, 0px 2px 0px #2a2a2a, 0px 3px 0px #2a2a2a, 0px 4px 0px #2a2a2a, 0px 5px 0px #2a2a2a, 0px 6px 0px #2a2a2a, 0px 7px 0px #2a2a2a, 0px 8px 0px #2a2a2a, 0px 9px 0px #2a2a2a, 0px 10px 0px #2a2a2a, 10px 20px 10px #000;
+            -moz-box-shadow: inset 0px 2px 0px #a8a8a8, 0px 2px 0px #2a2a2a, 0px 3px 0px #2a2a2a, 0px 4px 0px #2a2a2a, 0px 5px 0px #2a2a2a, 0px 6px 0px #2a2a2a, 0px 7px 0px #2a2a2a, 0px 8px 0px #2a2a2a, 0px 9px 0px #2a2a2a, 0px 10px 0px #2a2a2a, 10px 20px 10px #000;
+            box-shadow: inset 0px 2px 0px #a8a8a8, 0px 2px 0px #2a2a2a, 0px 3px 0px #2a2a2a, 0px 4px 0px #2a2a2a, 0px 5px 0px #2a2a2a, 0px 6px 0px #2a2a2a, 0px 7px 0px #2a2a2a, 0px 8px 0px #2a2a2a, 0px 9px 0px #2a2a2a, 0px 10px 0px #2a2a2a, 10px 20px 10px #000;
+            -webkit-transition: all .2s;
+            -moz-transition: all .2s;
+            transition: all .2s;
+        }
+        #button:active {
+            top: 5px;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: inset 0px 2px 0px #a8a8a8;
+        }
+        #triangle {
+            width: 0px;
+            height: 0px;
+            margin-left: 50%;
+            margin-top: 50%;
+            left: -4px;
+            top: -7px;
+            position: relative;
+            border-top: 7.5px solid transparent;
+            border-bottom: 7.5px solid transparent;
+            border-left: 12px solid #22a9db;
+            z-index: 2;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            transition: all .3s;
+        }
+        #button:hover #triangle { border-left: 12px solid #45bde9 }
+        #button:active #triangle { border-left: 12px solid #e94545 }
+        #lighter_triangle {
+            width: 0px;
+            height: 0px;
+            margin-left: 50%;
+            margin-top: 50%;
+            left: -3.6px;
+            top: -6.4px;
+            position: absolute;
+            border-top: 7.5px solid transparent;
+            border-bottom: 7.5px solid transparent;
+            border-left: 7.5px solid #43c0ee;
+            z-index: 1;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            transition: all .3s;
+        }
+        #button:hover #lighter_triangle { border-left: 7.5px solid #8bdaf7 }
+        #button:active #lighter_triangle { border-left: 7.5px solid #f78b8b }
+        #darker_triangle {
+            width: 0px;
+            height: 0px;
+            margin-left: 50%;
+            margin-top: 50%;
+            left: -3.6px;
+            top: -7.06px;
+            position: absolute;
+            border-top: 7.5px solid transparent;
+            border-bottom: 7.5px solid transparent;
+            border-left: 12px solid #0a7da7;
+            z-index: 1;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            transition: all .3s;
+        }
+        #button:hover #darker_triangle { border-left: 12px solid #1d98c5 }
+        #button:active #darker_triangle { border-left: 12px solid #c51d1d }
+    </style>
+    <div class="tableArea">
+    <div class="order-table">
+        <div class="order-row">
+        {% for order in orders %}
+            {% if loop.index0 % 4 == 0 %}
+                </div>
+                <br />
+                <div class="order-row">
+            {% endif %}
+            <div class="order-cell">
+                <div class="image-block">
+                <img class="order-movie-img" src="{{ asset(order.getMovie.getImgUrl) }}">
+                <div class="description">
+                    <span class="title" align="center"><b>
+                            <a href="{{ path('singleMovie', {id: order.getMovie.getId}) }}">{{ order.getMovie.getTitle }}</a>
+                        </b></span>
+                    <span class="date">Data zwrotu:<br />
+                        <u>{{ order.getDateOfReturn|date('h:i:s')}}</u><br />
+                        <u>{{ order.getDateOfReturn|date('d-m-Y')}}</u></span>
+                    <div id="container_button">
+                        <div id="hole">
+                            <a href="{{ order.getMovie.getVidUrl }}"
+                               class="html5lightbox" data-width="1024" data-height="768" title="{{ order.getMovie.getTitle }}">
+                            <div id="button">
+                                <div id="triangle"></div>
+                                <div id="lighter_triangle"></div>
+                                <div id="darker_triangle"></div>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% if loop.last %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    </div>
+    <script src="{{ asset('bundles/dvdworld/html5lightbox/html5lightbox.js') }}"></script>
+    <button class="internalButton" style="margin-left: 60%; margin-top: 50px;">Historia wypożyczeń</button>
+    <script>
+        $(document).ready(function(){
+            $(".table").hide();
+            $(".internalButton").click(function(){
+                $(".table").slideDown("slow");
+                $('html, body').animate({
+                    scrollTop: $(".table").offset().top
+                }, 1500);
+            });
+        });
+    </script>
+            <div class="container" style="margin-top: 15%">
+                <table class="table" >
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nazwa filmu</th>
+                        <th>Data wypożyczenia</th>
+                        <th>Data wzrotu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in expiredOrders %}
+                            <tr>
+                            <td><img width="50" height="75"src="{{ asset(order.getMovie.getImgUrl) }}"/></td>
+                            <td><a href="{{ path('singleMovie', {id: order.getMovie.getId}) }}">{{ order.getMovie.getTitle }}</a></td>
+                            <td>{{ order.getDateOfOrder|date('h:i:s d-m-Y') }}</td>
+                            <td style="color: red">{{ order.getDateOfReturn|date('h:i:s d-m-Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+{% endblock %}

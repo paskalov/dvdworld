@@ -1,0 +1,121 @@
+{% extends 'DvdWorldWebsiteBundle::base.html.twig' %}
+
+{% block title %}Koszyk{% endblock %}
+{% block carousel %}
+    <h3>Moje zakupy</h3>
+    <br />
+    <br />
+{% endblock %}
+{% block genreList %}{% endblock %}
+{% block movieBlock %}
+    <link href="{{ asset('bundles/dvdworld/css/form/view.css') }}" rel="stylesheet">
+    <script src="{{ asset('bundles/dvdworld/js/form/view.js') }}"></script>
+    <style type="text/css">
+        .tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #ebab3a;border-collapse: collapse; }
+        .tftable th {font-size:12px;background-color:#e6983b;border-width: 1px;padding: 8px;border-style: solid;border-color: #ebab3a;text-align:center;}
+        .tftable tr {background-color:#ffffff;}
+        .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #ebab3a; text-align: center}
+        .table tbody tr:hover {background-color:#ffff99;}
+
+        #contactForm {
+            display: none;
+        }
+        .wrapper {
+            text-align: right;
+        }
+
+        .button {
+            position: absolute;
+            top: 50%;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function(){
+            $("#orderButton").click(function(){
+                $("#contactForm").slideDown("slow");
+                $('html, body').animate({
+                    scrollTop: $("#contactForm").offset().top
+                }, 1500);
+            });
+        });
+    </script>
+<div class="container">
+
+<table class="table" >
+    <thead>
+        <tr>
+            <th>Obrazek</th>
+            <th>Nazwa filmu</th>
+            <th>Cena</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movieSet in movieSets %}
+             <tr>
+                 <td>
+                     <img width="50" height="75" src="{{ asset(movieSet.movie.getImgUrl) }}">
+                 </td>
+                 <td>
+                     <a href="{{ path('singleMovie', { 'id' : movieSet.movie.getId }) }}">{{ movieSet.movie.getTitle }}</a>
+                 </td>
+                 <td>{{ movieSet.movie.getPrice }} zł</td>
+                 <td>
+                    <a href="#"><img src="{{ asset('bundles/dvdworld/images/delete-item.png')}}"
+                         onclick="eraseCookie('{{ movieSet.nameOfCookie }}')"
+                            width="28" height="28"/></a>
+                 </td>
+             </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"><b>Razem: </b></td>
+            <td><b>{{ totalPrice }} zł</b></td>
+            <td></td>
+        </tr>
+    </tbody>
+    </table>
+    <br />
+    <div class="wrappe" style="margin-left: 81.5%">
+        <button id="orderButton" class="internalButton"  type="button" {%  if movieSets|length == 0 %}disabled{% endif %}>Dalej</button>
+    </div>
+    </div>
+
+
+    <div id="contactForm">
+    <img id="top" src="{{ asset('bundles/dvdworld/images/form/top.png')}}" alt="">
+    <div id="form_container">
+
+        <form method="POST" action="{{ path('movieOrder') }}">
+            <h4 align="center">Wypożyczenia:</h4>
+                <table>
+                    <tr>
+                        <th>Nazwa filmu</th>
+                        <th>Data wypożyczenia</th>
+                        <th>Data zwrotu</th>
+                        <th>Cena</th>
+                    </tr>
+                    {% for movieSet in movieSets %}
+                    <tr>
+                        <td width="100">{{ movieSet.movie.getTitle }}</td>
+                        <td width="150">{{ "now"|date("h:i:s d/m/Y") }}</td>
+                        <td width="150">{{ "now"|date_modify("+3 day")|date("h:i:s d/m/Y")}}</td>
+                        <td>{{ movieSet.movie.getPrice }} zł.</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <p>-------------------------------------------------------------------------------------------------</p>
+                <b>Razem:   {{ totalPrice }} zł </b><br />
+                <input type="hidden" name="movies_id" value="
+                {% for movieSet in movieSets%}
+                    {{ movieSet.movie.getId }}
+                    {% if loop.last == false %}
+                        ;
+                    {% endif %}
+                {% endfor %}
+                ">
+                <input style="margin-left: 73%" class="internalButton" type="submit" value="Wypożyczyć" onclick="deleteAllCookies()">
+        </form>
+    </div>
+    <img id="bottom" src="{{ asset('bundles/dvdworld/images/form/bottom.png') }}" alt="">
+    </div>
+{% endblock %}

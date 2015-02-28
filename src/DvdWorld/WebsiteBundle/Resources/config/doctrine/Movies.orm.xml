@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="DvdWorld\WebsiteBundle\Entity\Movies" table="Movies">
+    <unique-constraints>
+      <unique-constraint name="id" columns="id"/>
+    </unique-constraints>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="title" type="string" column="title" length="100" nullable="true"/>
+    <field name="releaseYear" type="date" column="release_year" nullable="true"/>
+    <field name="length" type="integer" column="length" nullable="false"/>
+    <field name="description" type="text" column="description" nullable="true"/>
+    <field name="price" type="decimal" column="price" precision="15" scale="2" nullable="true"/>
+    <field name="imgUrl" type="text" column="img_url" length="65535" nullable="true"/>
+    <field name="vidUrl" type="text" column="vid_url" length="65535" nullable="true"/>
+    <many-to-many field="genre" target-entity="Genres" inversed-by="movie">
+      <join-table name="MovieGenre">
+        <join-columns>
+          <join-column name="movie_id" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="genre" referenced-column-name="genre"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+    <many-to-many field="fullname" target-entity="Actors" inversed-by="movie">
+      <join-table name="MovieActor">
+        <join-columns>
+          <join-column name="movie_id" referenced-column-name="id"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="fullname" referenced-column-name="fullname"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>

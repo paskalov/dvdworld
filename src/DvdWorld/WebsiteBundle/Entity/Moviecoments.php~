@@ -1,0 +1,65 @@
+<?php
+
+namespace DvdWorld\WebsiteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Moviecoments
+ *
+ * @ORM\Table(name="movieComents", indexes={@ORM\Index(name="fk_movieComents_movies1_idx", columns={"movies_id"})})
+ * @ORM\Entity
+ */
+class Moviecoments
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="com_user_nickname", type="string", length=45, nullable=true)
+     */
+    private $comUserNickname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="com_user_email", type="string", length=45, nullable=true)
+     */
+    private $comUserEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="com_content", type="text", length=16777215, nullable=true)
+     */
+    private $comContent;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="com_date", type="datetime", nullable=true)
+     */
+    private $comDate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $id;
+
+    /**
+     * @var \DvdWorld\WebsiteBundle\Entity\Movies
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="DvdWorld\WebsiteBundle\Entity\Movies")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="movies_id", referencedColumnName="id")
+     * })
+     */
+    private $movies;
+
+
+}
